@@ -1,0 +1,39 @@
+body {
+    text-align: center;
+
+}
+
+.playAgain {
+    margin-block: 10px;
+}
+
+table {
+    margin-inline: auto;
+    margin-block: 20px;
+}
+
+td {
+    height: 30px;
+    width: 30px;
+}
+
+.not-exposed {
+    line-height: 30px;
+    height: 30px;
+    width: 30px;
+    background-color: grey;
+    color: azure;
+    opacity: 0;
+}
+
+.exposed {
+    line-height: 30px;
+    height: 30px;
+    width: 30px;
+    background-color: grey;
+    color: azure;
+}
+
+.lives {
+    margin-block-start: 10px;
+}
