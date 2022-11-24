@@ -29,7 +29,6 @@ function onInitGame() {
     }
 
     onDifficultyPress()
-    // cellMarked()
     gBoard = builBoard()
     console.log(gBoard)
     renderBoard(gBoard)
