@@ -1,18 +1,19 @@
 
 const MINE = '💣'
 const FLAG = '🚩'
+const LIFE = '💚'
 
 var gBoard
 var gGame
-var interval
-var timeControl = {
+var gInterval
+var gTimeControl = {
     pageLoadTime: Date.now(),
     isTimerOff: true,
     delta: 0
 }
 
 gLevel = {
-    MINES: 2
+    SIZE: 4, MINES: 2
 }
 
 function onInitGame(boardSideZise = 4) {
@@ -24,18 +25,17 @@ function onInitGame(boardSideZise = 4) {
         secsPassed: 0,
         lives: 3
     }
-
-    timeControl = {
+    gTimeControl = {
         pageLoadTime: Date.now(),
         isTimerOff: true,
         delta: 0
     }
-    interval = 0
+    gInterval = 0
     onDifficultyPress()
     onCellMarked()
-    gBoard = builBoard(boardSideZise)
+    gBoard = builBoard(gLevel.SIZE)
     renderBoard(gBoard)
-    renderLives()
+    rendLives()
 }
 
 function builBoard(boardSideZise = 4) {
@@ -54,7 +54,7 @@ function builBoard(boardSideZise = 4) {
     }
     return board
 }
-
+//
 function setMinesNegsCount(board) {
     for (var i = 0; i < board.length; i++) {
         for (var j = 0; j < board[0].length; j++) {
@@ -66,7 +66,7 @@ function setMinesNegsCount(board) {
         }
     }
 }
-
+//
 function cellCountNegs(board, idxI, idxJ) {
     var negsCount = 0
 
@@ -124,10 +124,10 @@ function onCellClicked(elCell, cellIdxI, cellIdxJ) {
     var elCurrEmptyCell = elCell.querySelector(`.not-exposed`)
     var currCell = gBoard[cellIdxI][cellIdxJ]
 
-    if (timeControl.isTimerOff) {
+    if (gTimeControl.isTimerOff) {
 
-        timeControl.pageLoadTime = Date.now()
-        interval = setInterval(timer, 1000)
+        gTimeControl.pageLoadTime = Date.now()
+        gInterval = setInterval(timer, 1000)
     }
 
     if (!gGame.isOn) return // game is not active
@@ -136,12 +136,12 @@ function onCellClicked(elCell, cellIdxI, cellIdxJ) {
     if (currCell.isMine) { // this cell is a mine
         gGame.explodedMineCount++
         gGame.lives -= 1
-        renderLives()
+        rendLives()
         checkGameOver()
         if (!gGame.lives) {
             revealMines()
             renderBoard(gBoard)
-            gameOver()
+            rendGameOver()
             return
         }
         currCell.isShown = true
@@ -170,42 +170,10 @@ function onCellClicked(elCell, cellIdxI, cellIdxJ) {
 function onCellMarked() {
     var elBoard = document.querySelector(`.board`);
     elBoard.addEventListener('contextmenu', (event) => {
-        event.preventDefault()
 
         var classes = event.target.classList // class list function return an array
-        console.log(event.target)
-        var currCellIndexs = classes[1].split('-') // to get td indexs
-        var i = currCellIndexs[1] // array classes: [[i][0][j][0]]
-        var j = currCellIndexs[3] // need the second and the last
-        var currCell = gBoard[i][j]
-
-        if (currCell.isShown) return
-
-        if ((classes.contains('flag'))) {
-            currCell.isMarked = false
-            classes.remove('flag')
-        }
-        else {
-            currCell.isMarked = true
-            classes.add('flag')
-        }
-
-        if (classes.contains('flag')) { // after the shift check if flag
-            event.target.innerText = FLAG
-            gGame.markedCount++
-            gBoard[i][j].isMarked = true
-
-        } else if (gBoard[currCellIndexs[1]][currCellIndexs[3]].isMine) {
-            event.target.innerText = MINE
-            gGame.markedCount--
-            gBoard[i][j].isMarked = false
-
-        } else {
-            (event.target.innerText = '')
-            gGame.markedCount--
-            gBoard[i][j].isMarked = false
-        }
-
+        event.preventDefault()
+        rendFlag(event, classes)
     });
 }
 
@@ -249,8 +217,8 @@ function onDifficultyPress() {
 
     elCurrDifficulty.addEventListener('change', (event) => {
         elCurrDifficulty = Number(event.target.value)
-
-        playAgain(elCurrDifficulty)
+        gLevel.SIZE = elCurrDifficulty
+        playAgain(gLevel.SIZE)
     });
 }
 
@@ -262,7 +230,6 @@ function playAgain(boardSideZise) {
 }
 
 function getMines(board, numOfMines) {
-
     for (var i = 0; i < numOfMines; i++) {
         var idxI = getRandomInt(0, board.length)
         var idxj = getRandomInt(0, board.length)
@@ -273,10 +240,9 @@ function getMines(board, numOfMines) {
         console.log('Mine', idxI, idxj)
         board[idxI][idxj].isMine = true
     }
-    console.log(' ')
 }
 
-function gameOver() {
+function rendGameOver() {
     stopTimer()
     var elLIvesText = document.querySelector('.lives')
     elLIvesText.innerText = `Game Over!`
@@ -285,9 +251,9 @@ function gameOver() {
     gGame.isOn = false
 }
 
-function renderLives() {
+function rendLives() {
     var elLIvesText = document.querySelector('.lives')
-    elLIvesText.innerText = `Lives: ${gGame.lives}`
+    elLIvesText.innerText = `${LIFE.repeat(gGame.lives)}`
 }
 
 function cellCountEmptyNegs(board, idxI, idxJ) {
@@ -330,18 +296,42 @@ function rendColor(cellFilling) {
     return numberColor
 }
 
-function stopTimer() {
-    clearInterval(interval);
-}
+
 
 function timer() {
 
     if (gGame.isOn) {
         var start = Date.now();
         var elField = document.querySelector('.clockText')
-        timeControl.delta = start - timeControl.pageLoadTime;
-        timeControl.delta = Math.floor(timeControl.delta / 1000); // in seconds
-        elField.innerText = `Time: ${timeControl.delta}s'`
-        timeControl.isTimerOff = false;
+        gTimeControl.delta = start - gTimeControl.pageLoadTime;
+        gTimeControl.delta = Math.floor(gTimeControl.delta / 1000); // in seconds
+        elField.innerText = `Time: ${gTimeControl.delta}s'`
+        gTimeControl.isTimerOff = false;
+    }
+}
+
+function rendFlag(event, classes) {
+    var currCellIndexs = classes[1].split('-') // to get td indexs
+    var i = currCellIndexs[1] // array classes: [[i][0][j][0]]
+    var j = currCellIndexs[3] // need the second and the last
+    var currCell = gBoard[i][j]
+
+    if (currCell.isShown) return
+
+    if (currCell.isMarked) {
+        currCell.isMarked = false // MODEL
+        gGame.markedCount-- //MODEL
+
+        event.target.innerText = '' // DOM
+        classes.remove('flag') // DOM
+
+        if (currCell.isMine) event.target.innerText = MINE //DOM
+
+    } else {
+        currCell.isMarked = true // MODEL
+        gGame.markedCount++ //MODEL
+
+        event.target.innerText = FLAG // DOM
+        classes.add('flag') // DOM
     }
 }

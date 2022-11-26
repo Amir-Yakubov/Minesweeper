@@ -8,9 +8,30 @@
 
 <body onload="onInitGame()">
     <h1>minesweeper</h1>
+    <table class="modal" border="1">
+        <tr>
+            <td><span class="userNameField"></span></td>
+            <td><span class="recordField"></span></td>
+            <td class="button-24" role="button" onclick="changeUser()">Change User
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <div class="lives"></div>
+            </td>
+            <td>
+                <button class="help-btn safe-click" onclick="onSafeClick()">Safe Click</button><span
+                    class="safes-num">🚨🚨🚨</span>
+            </td>
+            <td>
+                <button class="help-btn hint" onclick="onHintClick(this)">Hint</button><span
+                    class="hints-num">💡💡💡</span>
+            </td>
+        </tr>
+
+    </table>
 
     <div class="difficulty">
-        <legend>Difficulty</legend>
         <input class="Bigginer" type="radio" name="drone" value="4" checked>
         <label for="Bigginer">Bigginer</label>
         <input class="Pro" type="radio" name="drone" value="8">
@@ -22,9 +43,8 @@
 
     <div class="gameZone">
         <div class="game-modal">
-            <div class="lives">Lives: 3</div>
-            <div class="clockText"></div>
             <button class="playAgain" onclick="playAgain()">😃</button>
+            <div class="clockText">Time: </div>
         </div>
 
         <table class="board" border="1">
@@ -36,7 +56,9 @@
     <hr style="width:280px">
     <footer>Amir Yakubov &#128681</footer>
 
-    <script src="js/main.js"></script>
+    <script src="js/game.js"></script>
+    <script src="js/model.js"></script>
+    <script src="js/dom.js"></script>
     <script src="js/utils.js"></script>
 </body>
 

@@ -1,8 +1,13 @@
+@font-face {
+    font-family: "pixel";
+    src: url("./PixelLcd7-ywKGe.ttf");
+}
+
 body {
     text-align: center;
-    font-family: assistant;
+    font-family: "pixel";
     background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7f7 100%);
-    min-block-size: 800px;
+    min-block-size: 1000px;
     margin-block: 10px;
 }
 
@@ -40,12 +45,8 @@ td {
     background-image: linear-gradient(315deg, #b8c6db 0%, #aeafaf 100%);
 }
 
-.lives {
-    margin-block-start: 10px;
-}
-
 .flag {
-    background-image: linear-gradient(315deg, #b8c6db 0%, #f5f7f7 100%);
+    background-image: none;
     line-height: 30px;
     height: 30px;
     width: 30px;
@@ -54,6 +55,7 @@ td {
 
 .clockText {
     min-height: 20px;
+    margin-block-end: 10px;
 }
 
 .status-text {
@@ -62,4 +64,65 @@ td {
     height: 100px;
     margin-block-end: 10px;
     line-height: 100px;
+}
+
+.help-btn {
+    border: none;
+    height: 30px;
+    border-radius: 20%;
+    cursor: pointer;
+    font-family: "pixel";
+}
+
+.help-btn:hover {
+    background-color: lightyellow;
+}
+
+.light-on {
+    background-color: lightyellow;
+}
+
+.modal td {
+    width: 200px;
+    height: 40px;
+    line-height: 20px;
+    font-size: 17px;
+    font-weight: 200;
+    border: solid 1px lightslategrey
+}
+
+.button-24 {
+    background: #afd1be;
+    border: 1px solid #FF4742;
+    border-radius: 6px;
+    box-shadow: rgba(0, 0, 0, 0.1) 1px 2px 4px;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "pixel";
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 16px;
+    min-height: 40px;
+    outline: 0;
+    padding: 12px 14px;
+    text-align: center;
+    text-rendering: geometricprecision;
+    text-transform: none;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    vertical-align: middle;
+}
+
+.button-24:hover,
+.button-24:active {
+    background-color: initial;
+    background-position: 0 0;
+    color: #FF4742;
+}
+
+.button-24:active {
+    opacity: .5;
 }
