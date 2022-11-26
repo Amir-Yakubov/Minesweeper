@@ -1,2 +1,2 @@
-# sprint1-day1
+# sprint1
 mine-sweeper
