@@ -93,6 +93,8 @@ function renderGameStatus() {
         elbtn.innerText = '🤯'
 
         elgameModal.innerText = 'Game over..'
+        revealMines()
+        renderBoard(gBoard)
         return true
     }
 
