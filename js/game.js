@@ -59,6 +59,7 @@ function onCellClicked(elCell, cellIdxI, cellIdxJ) {
         var elHintBtn = document.querySelector('.hint')
         elHintBtn.classList.remove('light-on')
         gIsHintOn = false
+        renderBoard()
         return
     }
 
@@ -82,6 +83,7 @@ function onCellClicked(elCell, cellIdxI, cellIdxJ) {
         currCell.isShown = true
         gGame.shownCount++
         elCurrEmptyCell.style.opacity = '1'
+        checkGameOver()
         return
     }
 
@@ -126,7 +128,7 @@ function onCellMarked() {
 
 function onHintClick(btnElement) {
     if (!gGame.shownCount) return
-    if (gLevel.HINTS <= 0) return
+    if (!gLevel.HINTS) return
 
     var classes = btnElement.classList
     if (classes[1] === 'light-on') {
